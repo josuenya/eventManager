@@ -43,18 +43,23 @@ const logout = () => {
                     <div class="flex justify-between">
                         <div class="flex items-center">
                             <!-- Navigation Links :active="route().current('dashboard')" -->
-                            <Link class="text-white outline-none font-bold" :href="'/'">Acceuil</Link>
+                            <Link class="text-white flex items-center space-x-2 outline-none font-bold" :href="'/'">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                                <span>Acceuil</span>
+                            </Link>
 <!--                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">-->
 <!--                                <JetNavLink :href="route('dashboard')" class="text-white font-bold">-->
-<!--                                    Dashboard-->
+<!--                                    Evenement a venir-->
 <!--                                </JetNavLink>-->
 <!--                            </div>-->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <p @click="modal.display = true" class="text-white flex items-center cursor-pointer font-bold">
-                                    <svg class="h-4 text-white font-bold w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <p @click="modal.display = true" class="text-white space-x-3 flex items-center cursor-pointer font-bold">
+                                    <svg class="h-6 text-white font-bold w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                                     </svg>
-                                    Ajouter
+                                    <span>Ajouter</span>
                                 </p>
                             </div>
                         </div>
@@ -307,8 +312,10 @@ const logout = () => {
 <!--            </header>-->
 
             <!-- Page Content -->
-            <main class="px-5 pb-10" style="min-width: 0">
-                <slot name="content" />
+            <main class="" style="min-width: 0">
+                <div class="bg-white m-5 py-1 px-5 rounded-lg" style="min-height: calc(100vh - 32px)">
+                    <slot name="content" />
+                </div>
             </main>
         </div>
         <event-modal v-if="modal.display" @closeModal="modal.display = false" />
