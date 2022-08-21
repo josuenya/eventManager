@@ -26,6 +26,10 @@
         "@fullcalendar/interaction": "^5.11.2",
         "@fullcalendar/list": "^5.11.2",
         "@fullcalendar/rrule": "^5.11.2",
-        "@fullcalendar/vue3": "^5.11.2"
+        "@fullcalendar/vue3": "^5.11.2",
+        "@vuelidate/core": "^2.0.0-alpha.44",
+        "@vuelidate/validators": "^2.0.0-alpha.31",
+        "moment": "^2.29.4",
+        "vue-ctk-date-time-picker": "^3.0.0-alpha.0"
     }
 }

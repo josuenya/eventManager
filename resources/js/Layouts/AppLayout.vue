@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import {reactive, ref} from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import JetApplicationMark from '@/Components/ApplicationMark.vue';
@@ -8,10 +8,14 @@ import JetDropdown from '@/Components/Dropdown.vue';
 import JetDropdownLink from '@/Components/DropdownLink.vue';
 import JetNavLink from '@/Components/NavLink.vue';
 import JetResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-
+import EventModal from '@/Components/EventModal.vue'
 defineProps({
     title: String,
 });
+
+const modal = reactive ({
+    display: false
+})
 
 const showingNavigationDropdown = ref(false);
 
@@ -32,19 +36,26 @@ const logout = () => {
     <div>
         <Head :title="title" />
 
-        <JetBanner />
-
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-blue-500 border-b border-gray-100">
+            <nav class="bg-blue-600 py-2 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Navigation Links -->
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex justify-between">
+                        <div class="flex items-center">
+                            <!-- Navigation Links :active="route().current('dashboard')" -->
+                            <Link class="text-white outline-none font-bold" :href="'/'">Acceuil</Link>
+<!--                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">-->
+<!--                                <JetNavLink :href="route('dashboard')" class="text-white font-bold">-->
+<!--                                    Dashboard-->
+<!--                                </JetNavLink>-->
+<!--                            </div>-->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </JetNavLink>
+                                <p @click="modal.display = true" class="text-white flex items-center cursor-pointer font-bold">
+                                    <svg class="h-4 text-white font-bold w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    Ajouter
+                                </p>
                             </div>
                         </div>
 
@@ -127,17 +138,17 @@ const logout = () => {
                                         </button>
 
                                         <span v-else class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
-                                                {{ $page.props.user.name }}
+                                            <button type="button" class="inline-flex justify-center uppercase items-center rounded-full w-8 h-8 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                                {{ $page.props.user.name[0] + $page.props.user.name[1] }}
 
-                                                <svg
-                                                    class="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                </svg>
+<!--                                                <svg-->
+<!--                                                    class="ml-2 -mr-0.5 h-4 w-4"-->
+<!--                                                    xmlns="http://www.w3.org/2000/svg"-->
+<!--                                                    viewBox="0 0 20 20"-->
+<!--                                                    fill="currentColor"-->
+<!--                                                >-->
+<!--                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />-->
+<!--                                                </svg>-->
                                             </button>
                                         </span>
                                     </template>
@@ -296,9 +307,10 @@ const logout = () => {
 <!--            </header>-->
 
             <!-- Page Content -->
-            <main>
-                <slot />
+            <main class="px-5 pb-10" style="min-width: 0">
+                <slot name="content" />
             </main>
         </div>
+        <event-modal v-if="modal.display" @closeModal="modal.display = false" />
     </div>
 </template>

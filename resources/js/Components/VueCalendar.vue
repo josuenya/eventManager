@@ -34,8 +34,11 @@ export default defineComponent({
     components: {
         FullCalendar,
     },
-
-    setup() {
+    props: {
+        EventsData: []
+    },
+    setup(props) {
+        console.log('Events Data ====>>>>', props.EventsData)
         const calendarRef = ref<Calendar>();
 
         const calendarApi = ref();
@@ -56,7 +59,7 @@ export default defineComponent({
                 },
                 events: [],
                 displayEventTime: false,
-                initialView: "listWeek",
+                initialView: "dayGridMonth",
                 plugins: [dayGridPlugin, listPlugin, interactionPlugin, rrulePlugin],
 
                 eventsSet: handleEvents,
@@ -98,7 +101,7 @@ export default defineComponent({
         const prev = () => calendarApi.value.prev();
 
         onMounted(() => {
-            let events = getEvents();
+            let events = props.EventsData;
             if (calendarRef.value) {
                 // @ts-ignore
                 calendarApi.value = calendarRef.value.getApi();

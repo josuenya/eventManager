@@ -1,28 +1,29 @@
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import VueCalendar from "@/Components/VueCalendar.vue";
-import {onMounted, reactive} from "vue";
+import {reactive} from "vue";
+
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
-    events: [],
 });
 
 const modal = reactive ({
     display: false
 })
-
-onMounted(() => {
-    // console.log('events', events)
-})
 </script>
 
 <template>
-    <div class="">
-        <Head title="Event-cloud" />
+    <div>
         <div class="bg-blue-600 flex justify-between items-center text-white font-bold px-5 py-2">
-            <Link :href="'/'">Cloud-Event</Link>
-            <div class="flex items-center space-x-2">
+            <p>Cloud-Event</p>
+            <div class="flex space-x-2">
+                <p @click="modal.display = true" class="cursor-pointer flex items-center justify-center">
+                    <svg class="h-4 text-white font-bold w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>Ajouter</span>
+                </p>
+                <Link v-if="$page.props.user" :href="route('events-list')" class="text-sm dark:text-gray-500">Evenements</Link>
                 <div v-if="canLogin">
                     <Link v-if="$page.props.user" :href="route('dashboard')" class="text-sm dark:text-gray-500">Dashboard</Link>
                     <template v-else>
@@ -32,9 +33,6 @@ onMounted(() => {
                     </template>
                 </div>
             </div>
-        </div>
-        <div class="" style="min-height: calc(100vh - 40px) !important;">
-            <vue-calendar :EventsData="events" />
         </div>
     </div>
 </template>

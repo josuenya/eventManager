@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,21 +16,15 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
+
+    Route::get('/dashboard', [Controllers\EventsController::class, 'getEvent'])->name('dashboard');
+
+    Route::get('/events', [Controllers\EventsController::class, 'getEvent'])->name('events.list');
+    Route::post('/events/store',[Controllers\EventsController::class, 'store'])->name('event.store');
+    Route::post('/events/update',[Controllers\EventsController::class, 'update'])->name('event.update');
+    Route::post('/events/delete',[Controllers\EventsController::class, 'destroy']);
+    Route::post('/events/range',[Controllers\EventsController::class, 'getEventByDate'])->name('events.range');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
+Route::get('/', [Controllers\EventsController::class, 'index'])->name('events');

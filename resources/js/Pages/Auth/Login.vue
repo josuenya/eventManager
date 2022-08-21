@@ -34,7 +34,7 @@ const submit = () => {
 
     <JetAuthenticationCard>
         <template #logo>
-            <JetAuthenticationCardLogo />
+            <Link :href="'/'" class="text-blue-600 font-bold">EVENTS-CLOUD</Link>
         </template>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
